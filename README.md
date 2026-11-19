@@ -1,6 +1,6 @@
 Cyber Defender: Pelatihan Kesadaran Keamanan Siber
 
-Cyber Defender adalah aplikasi simulasi berbasis web (Single Page Application) yang dirancang untuk melatih dan menguji insting kesadaran keamanan siber (cybersecurity awareness) pengguna dalam menghadapi skenario serangan dunia nyata yang umum terjadi di lingkungan kerja.
+Cyber Defender adalah aplikasi simulasi berbasis web (Single Page Application) yang dirancang untuk melatih dan menguji insting kesadaran keamanan siber (cybersecurity awareness) pengguna dalam mengha[...]
 
 
 Fitur Utama
@@ -40,6 +40,6 @@ Karena aplikasi ini dibangun menggunakan HTML, CSS, dan JavaScript murni dalam s
 2. Buka file CyberVibe.html langsung menggunakan peramban web modern (Chrome, Firefox, Edge, Safari) atau jalankan melalui ekstensi Live Server di VS Code.
 3. Klik tombol "Mulai Simulasi Sekarang" pada halaman utama untuk memulai pelatihan.
 4. Atau klik link dibawah
-PLAY ONLINE
+[PLAY ONLINE](https://staycil.github.io/CyberVibe/)
 
 ENJOY UR GAME FELLAS!!
