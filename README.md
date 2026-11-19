@@ -40,6 +40,6 @@ Karena aplikasi ini dibangun menggunakan HTML, CSS, dan JavaScript murni dalam s
 2. Buka file CyberVibe.html langsung menggunakan peramban web modern (Chrome, Firefox, Edge, Safari) atau jalankan melalui ekstensi Live Server di VS Code.
 3. Klik tombol "Mulai Simulasi Sekarang" pada halaman utama untuk memulai pelatihan.
 4. Atau klik link dibawah
-https://staycil.github.io/CyberVibe/
+PLAY ONLINE
 
 ENJOY UR GAME FELLAS!!
