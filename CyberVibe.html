@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Defender - Pelatihan Kesadaran Keamanan Siber</title>
+    <style>
+        /* =============================================================
+           1. GAYA GLOBAL & VARIABEL
+           ============================================================= */
+        :root {
+            --bg-dark:    #121212;
+            --surface:    #1e1e1e;
+            --primary:    #bb86fc;
+            --secondary:  #03dac6;
+            --error:      #ff8a9b;
+            --error-bg:   #cf6679;
+            --success:    #66d36b;
+            --warn:       #ffeb3b;
+            --text:       #ffffff;
+            --text-muted: #bdbdbd;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--warn);
+            outline-offset: 2px;
+        }
+
+        /* =============================================================
+           2. GAYA LANDING PAGE
+           ============================================================= */
+        #landingPage header {
+            background-color: #2c2c2c;
+            padding: 20px 40px;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        #landingPage header h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        #landingPage .hero {
+            text-align: center;
+            padding: 100px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        #landingPage .hero h2 {
+            font-size: 46px;
+            color: var(--secondary);
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        #landingPage .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            background-color: var(--primary);
+            color: #000;
+            padding: 16px 36px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-cta:hover {
+            background-color: #d2b0fd;
+            transform: translateY(-2px);
+        }
+
+        #landingPage .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            padding: 40px 20px 100px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        #landingPage .feature-card {
+            background-color: var(--surface);
+            padding: 30px;
+            border-radius: 12px;
+            width: 300px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            border-top: 4px solid var(--secondary);
+            transition: transform 0.2s;
+        }
+
+        #landingPage .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        #landingPage .feature-card h3 {
+            color: var(--secondary);
+            margin-top: 0;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        #landingPage .feature-card p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin: 0;
+        }
+
+        #landingPage footer {
+            text-align: center;
+            padding: 24px;
+            background-color: #1a1a1a;
+            color: var(--text-muted);
+            font-size: 14px;
+            border-top: 1px solid #333;
+        }
+
+        @media (max-width: 600px) {
+            #landingPage .hero h2 { font-size: 32px; }
+            #landingPage header { padding: 15px 20px; justify-content: center; }
+        }
+
+        /* =============================================================
+           3. GAYA GAME SIMULASI
+           ============================================================= */
+        #gameWrapper {
+            display: none; /* Disembunyikan sampai tombol diklik */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 12px;
+            width: 100%;
+        }
+
+        .container {
+            position: relative;
+            background-color: var(--surface);
+            width: 100%;
+            max-width: 800px;
+            min-height: 540px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #2c2c2c;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px 20px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .stats {
+            font-size: 14px;
+            color: var(--text-muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 14px;
+            align-items: center;
+        }
+
+        .stats label {
+            cursor: pointer;
+            display: inline-flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .game-area {
+            flex-grow: 1;
+            padding: 24px 24px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .sc-title {
+            color: var(--secondary);
+            margin: 0 0 6px;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .sc-title:focus { outline: none; }
+
+        .sc-prompt {
+            text-align: center;
+            color: var(--text-muted);
+            margin: 0 0 14px;
+            max-width: 560px;
+            line-height: 1.5;
+        }
+
+        .retry-note {
+            color: var(--warn);
+            font-weight: bold;
+        }
+
+        .hint-row {
+            min-height: 54px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .hint-text {
+            margin: 8px 0 0;
+            color: var(--warn);
+            font-size: 14px;
+            max-width: 520px;
+        }
+
+        .scene {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid #666;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-ghost:hover:not(:disabled) { border-color: var(--primary); }
+        .btn-ghost:disabled { opacity: .55; cursor: default; }
+
+        .show-flags [data-flag] {
+            outline: 3px solid var(--warn);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        .timer-wrap {
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto 10px;
+        }
+
+        .timer-track {
+            height: 10px;
+            background: #444;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background: var(--secondary);
+            transition: background-color .3s;
+        }
+
+        .timer-label {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .timer-bar.low { background: var(--error-bg); }
+        .timer-label.low { color: var(--error); font-weight: bold; }
+
+        .feedback-modal {
+            position: absolute;
+            inset: 0;
+            background: rgba(18, 18, 18, 0.97);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+            text-align: center;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .feedback-modal[hidden] { display: none; }
+        .feedback-modal h2 { margin: 0 0 10px; font-size: 28px; }
+        .feedback-modal p { font-size: 16px; line-height: 1.5; color: var(--text-muted); max-width: 520px; margin: 0; }
+
+        .flag-box { margin-top: 16px; text-align: left; max-width: 520px; background: #2a2a2a; border-radius: 8px; padding: 12px 18px; }
+        .flag-box h3 { margin: 0 0 6px; font-size: 14px; color: var(--warn); text-transform: uppercase; letter-spacing: .04em; }
+        .flag-box ul { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 14px; line-height: 1.5; }
+
+        .modal-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 24px; }
+        .btn-next { padding: 12px 24px; background-color: var(--primary); color: #000; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: background-color .2s; }
+        .btn-next:hover { background-color: #d2b0fd; }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid var(--primary); }
+        .btn-secondary:hover { background-color: rgba(187, 134, 252, .2); }
+
+        /* SKENARIO - Email */
+        .email-client { width: 100%; max-width: 520px; background: #fff; color: #333; border-radius: 8px; overflow: hidden; text-align: left; }
+        .email-header { background: #f1f3f4; padding: 14px; border-bottom: 1px solid #ddd; }
+        .email-body { padding: 18px 20px; }
+        .email-body p { margin: 0 0 12px; }
+        .email-link { background: none; border: none; padding: 0; font-size: inherit; color: #1a56c8; text-decoration: underline; cursor: pointer; font-weight: bold; }
+        .link-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+        .btn-preview { background: #e8eaed; color: #333; border: 1px solid #bbb; border-radius: 4px; padding: 3px 8px; font-size: 12px; cursor: pointer; }
+        .link-status { background: #fffbe0; color: #333; padding: 8px 14px; font-size: 13px; border-top: 1px solid #e6dfa5; min-height: 34px; }
+        .link-preview { background: #fafafa; border-top: 1px solid #ddd; padding: 12px 14px; }
+        .link-preview[hidden] { display: none; }
+        .preview-window { background: #fff; border: 1px solid #ccc; border-radius: 6px; overflow: hidden; }
+        .preview-url { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 6px 10px; background: #f1f3f4; border-bottom: 1px solid #ddd; font-size: 12px; word-break: break-all; }
+        .preview-url.secure { color: #1e7e34; }
+        .preview-url.insecure { color: #c5221f; font-weight: bold; }
+        .preview-badge { margin-left: auto; font-size: 11px; white-space: nowrap; }
+        .preview-page { padding: 14px 16px; font-size: 14px; }
+        .preview-page h4 { margin: 0 0 10px; font-size: 16px; }
+        .preview-row { display: flex; gap: 12px; padding: 6px 0; border-bottom: 1px solid #eee; }
+        .preview-when { flex: 0 0 120px; font-weight: bold; }
+        .preview-field { margin-bottom: 8px; padding: 8px 10px; border: 1px solid #bbb; border-radius: 4px; color: #777; background: #fafafa; }
+        .preview-fake-btn { display: inline-block; padding: 8px 18px; border-radius: 4px; background: #1a56c8; color: #fff; font-weight: bold; }
+        .preview-footer { margin-top: 10px; font-size: 11px; color: #777; }
+        .email-actions { display: flex; gap: 10px; padding: 12px 14px; background: #f1f3f4; border-top: 1px solid #ddd; flex-wrap: wrap; }
+        .email-actions button { flex: 1; min-width: 150px; border: none; padding: 10px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; color: #fff; }
+        .btn-report { background: #c5221f; }
+        .btn-ok { background: #1e7e34; }
+
+        /* SKENARIO - USB */
+        .desk-area { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 18px; width: 100%; align-items: center; margin-top: 16px; }
+        .usb-drive { font-size: 36px; cursor: grab; padding: 18px 22px; background: #333; color: #fff; border-radius: 10px; border: 2px dashed var(--secondary); transition: transform .2s; user-select: none; -webkit-user-select: none; }
+        .usb-drive:active { cursor: grabbing; }
+        .usb-drive.selected { transform: scale(1.1); border-style: solid; background: #3d3d3d; }
+        .dropzone { width: 150px; height: 150px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 46px; border: 3px solid #666; color: #ccc; background: transparent; cursor: pointer; transition: .3s; }
+        .dropzone span { font-size: 15px; margin-top: 4px; }
+        .dropzone.dragover, .dropzone:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary); color: #fff; }
+        .desk-status { color: var(--text-muted); font-size: 14px; min-height: 22px; margin-top: 18px; text-align: center; }
+
+        /* SKENARIO - Telepon */
+        .phone-ui { width: min(290px, 100%); min-height: 440px; background: #000; border-radius: 30px; border: 8px solid #444; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px 12px; }
+        .caller-avatar { font-size: 46px; margin-bottom: 10px; }
+        .caller-id { font-size: 22px; margin-bottom: 6px; text-align: center; }
+        .caller-number { font-size: 14px; margin-bottom: 20px; color: var(--text-muted); }
+        .caller-number.unknown { color: var(--error); }
+        .speech { padding: 0 10px; text-align: center; color: #ddd; margin: 0 0 26px; line-height: 1.45; }
+        .phone-actions { display: flex; gap: 28px; }
+        .call-col { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); max-width: 100px; text-align: center; }
+        .btn-call { width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 24px; cursor: pointer; color: #fff; }
+        .btn-accept { background: #2e7d32; }
+        .btn-decline { background: #c62828; }
+
+        /* SKENARIO - Chat */
+        .chat-ui { width: 100%; max-width: 420px; background: #222; border-radius: 8px; overflow: hidden; }
+        .chat-header { background: #333; padding: 14px; text-align: center; font-weight: bold; }
+        .chat-bubbles { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+        .bubble { background: #444; padding: 10px 15px; border-radius: 15px; max-width: 85%; line-height: 1.4; }
+        .chat-actions { padding: 14px; background: #1a1a1a; display: flex; gap: 10px; flex-wrap: wrap; }
+        .chat-btn { flex: 1; min-width: 140px; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-send-file { background: var(--error-bg); color: #000; }
+        .btn-verify { background: var(--secondary); color: #000; }
+
+        /* SKENARIO - Pintu */
+        .door-scene { text-align: center; width: 100%; max-width: 460px; }
+        .door-visual { font-size: 70px; margin-bottom: 14px; }
+        .door-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn-door { padding: 14px 22px; font-size: 17px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-lock { background: var(--primary); color: #000; }
+        .btn-hold { background: #444; color: #fff; }
+
+        /* HASIL AKHIR & LEADERBOARD */
+        .results h2 { font-size: 34px; margin: 0 0 6px; text-align: center; }
+        .big-score { font-size: 60px; font-weight: bold; text-align: center; }
+        .results .sc-prompt { margin: 8px auto 0; }
+        .results .sc-prompt + .sc-prompt { margin-top: 4px; }
+        .result-list { list-style: none; padding: 0; margin: 16px 0 22px; width: 100%; max-width: 440px; }
+        .result-list li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; background: #262626; border-radius: 6px; margin-bottom: 6px; font-size: 15px; }
+        .result-list .outcome { color: var(--text-muted); }
+        .lb { width: 100%; max-width: 440px; margin: 0 0 22px; background: #262626; border-radius: 8px; padding: 14px 16px; }
+        .lb h3 { margin: 0 0 10px; font-size: 16px; color: var(--secondary); }
+        .lb-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+        .lb-form label { flex: 1 0 100%; font-size: 13px; color: var(--text-muted); }
+        .lb-form input { flex: 1; min-width: 140px; padding: 8px 10px; border-radius: 6px; border: 1px solid #666; background: #1a1a1a; color: var(--text); font-size: 15px; font-family: inherit; }
+        .lb-form[hidden] { display: none; }
+        .lb-form .btn-next { padding: 8px 16px; font-size: 14px; }
+        .lb-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
+        .lb-tabs .btn-ghost[aria-pressed="true"] { border-color: var(--primary); background: rgba(187, 134, 252, .2); }
+        .lb-status { font-size: 13px; color: var(--text-muted); min-height: 20px; margin: 6px 0; }
+        .lb-status.error { color: var(--error); }
+        .lb-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .lb-table th { text-align: left; color: var(--text-muted); font-weight: normal; font-size: 12px; padding: 4px 6px; }
+        .lb-table td { padding: 6px; border-top: 1px solid #333; }
+        .lb-table .num { text-align: right; white-space: nowrap; }
+        .lb-table tr.me td { color: var(--warn); font-weight: bold; }
+
+        @media (max-width: 600px) {
+            .game-area { padding: 18px 14px 24px; }
+            .sc-title  { font-size: 19px; }
+            .dropzone  { width: 120px; height: 120px; font-size: 38px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =================================================================
+         1. LANDING PAGE VIEW
+         ================================================================= -->
+    <div id="landingPage">
+        <header>
+            <h1>Cyber Defender</h1>
+        </header>
+
+        <section class="hero">
+            <h2>Uji Insting Keamanan Siber Anda</h2>
+            <p>Jadilah garis pertahanan pertama perusahaan. Hadapi serangan dunia nyata yang dirancang untuk mengelabui Anda, mulai dari email manipulatif hingga penyusupan ke ruang server. Buat keputusan yang tepat sebelum waktu habis.</p>
+            <button id="btnStartGame" class="btn-cta">Mulai Simulasi Sekarang</button>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>10 Skenario Kritis</h3>
+                <p>Berlatih mengenali ancaman spesifik seperti Phishing, Vishing (Telepon), Smishing (SMS), dan Tailgating (Penyusupan Fisik) dalam lingkungan yang aman.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Berpacu dengan Waktu</h3>
+                <p>Penyerang di dunia nyata selalu memanfaatkan keraguan Anda. Buktikan Anda mampu mengambil keputusan secara cepat di bawah tekanan batas waktu.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Umpan Balik Instan</h3>
+                <p>Terima analisis langsung setelah setiap keputusan. Pelajari tanda-tanda bahaya yang tersembunyi (red flags) agar Anda tidak mengulangi kesalahan yang sama.</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Cyber Defender: UCD Sim. Hak Cipta Dilindungi.</p>
+        </footer>
+    </div>
+
+
+    <!-- =================================================================
+         2. GAME SIMULATION VIEW (Awalnya Tersembunyi)
+         ================================================================= -->
+    <div id="gameWrapper">
+        <div class="container">
+            <!-- Header: judul dan statistik (skor, level, rekor, pengaturan timer) -->
+            <div class="header" id="header">
+                <h1>Cyber Defender: UCD Sim</h1>
+                <div class="stats">
+                    <span>System Integrity: <strong id="scoreDisplay">100</strong>%</span>
+                    <span>Sector: <strong id="levelDisplay">1</strong>/<span id="totalDisplay">10</span></span>
+                    <span>Best: <strong id="bestDisplay">–</strong></span>
+                    <label>
+                        <input type="checkbox" id="relaxedToggle"> Relaxed timer (2× time)
+                    </label>
+                </div>
+            </div>
+
+            <!-- Area utama: tempat skenario dan layar hasil digambar -->
+            <main class="game-area" id="gameArea"></main>
+
+            <!-- Modal umpan balik: muncul setelah pemain menjawab -->
+            <div class="feedback-modal" id="feedbackModal" role="dialog" aria-modal="true" aria-labelledby="fbTitle" aria-describedby="fbText" hidden>
+                <h2 id="fbTitle"></h2>
+                <p id="fbText" aria-live="polite"></p>
+                <div class="flag-box" id="fbFlags" hidden>
+                    <h3 id="fbFlagTitle"></h3>
+                    <ul id="fbFlagList"></ul>
+                </div>
+                <div class="modal-actions" id="fbActions"></div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- =================================================================
+     3. JAVASCRIPT GAME
+     ================================================================= -->
+<script>
+(() => {
+    'use strict';
+
+    /* KONFIGURASI */
+    const CONFIG = {
+        startScore: 100,
+        hintCost: 5,
+        relaxedMultiplier: 2,
+        lowTimeRatio: 0.25,
+        timerTickMs: 100,
+        passScore: 60
+    };
+
+    const SUPABASE = {
+        url: 'https://vbmpulpvomfwenliygdi.supabase.co',
+        anonKey: 'sb_publishable_AFCv4as84Uy80cVoCT8oSg_GoQ8Wq01',
+        table: 'scores',
+        topLimit: 10,
+        maxNickname: 20
+    };
+
+    const STORAGE_KEYS = {
+        best: 'cd_best',
+        relaxed: 'cd_relaxed',
+        nickname: 'cd_nickname'
+    };
+
+    const DEFAULT_TIMEOUT_MESSAGE = "Time's up! Running out the clock counts as a miss. In real life, attackers benefit from your hesitation, and legitimate colleagues are left waiting.";
+
+    /* HELPER */
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const escapeHtml = (text) => String(text).replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[char]));
+    const shuffle = (array) => {
+        const copy = array.slice();
+        for (let i = copy.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+    };
+    const flagAttr = (isFlagged) => isFlagged ? ' data-flag' : '';
+    const store = {
+        get(key, defaultValue) {
+            try { const value = localStorage.getItem(key); return value === null ? defaultValue : JSON.parse(value); } 
+            catch (error) { return defaultValue; }
+        },
+        set(key, value) {
+            try { localStorage.setItem(key, JSON.stringify(value)); } catch (error) {}
+        }
+    };
+
+    /* LEADERBOARD API */
+    const Leaderboard = {
+        enabled: () => Boolean(SUPABASE.url && SUPABASE.anonKey),
+        headers() { return { 'apikey': SUPABASE.anonKey, 'Authorization': 'Bearer ' + SUPABASE.anonKey, 'Content-Type': 'application/json' }; },
+        endpoint: () => SUPABASE.url.replace(/\/+$/, '') + '/rest/v1/' + SUPABASE.table,
+        async top(relaxed) {
+            const query = new URLSearchParams({ select: 'nickname,score,time_ms', relaxed: 'eq.' + Boolean(relaxed), order: 'score.desc,time_ms.asc', limit: String(SUPABASE.topLimit) });
+            const response = await fetch(Leaderboard.endpoint() + '?' + query, { headers: Leaderboard.headers() });
+            if (!response.ok) throw new Error('Could not load the leaderboard (' + response.status + ').');
+            return response.json();
+        },
+        async submit(entry) {
+            const response = await fetch(Leaderboard.endpoint(), {
+                method: 'POST', headers: { ...Leaderboard.headers(), 'Prefer': 'return=minimal' }, body: JSON.stringify(entry)
+            });
+            if (!response.ok) throw new Error('Could not save your score (' + response.status + ').');
+        }
+    };
+
+    const formatTime = (ms) => {
+        const totalSeconds = ms / 1000;
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = (totalSeconds - minutes * 60).toFixed(1).padStart(4, '0');
+        return minutes > 0 ? minutes + 'm ' + seconds + 's' : seconds + 's';
+    };
+
+    /* DATA SKENARIO */
+    const SCENARIOS = [
+        {
+            id: 'phish', kind: 'email', category: 'Phishing', penalty: 20, time: 30,
+            title: 'Incoming Email',
+            prompt: 'You work at TechCorp (techcorp.com). Review the email, then decide what to do.',
+            from: 'IT Support <admin@tech-corp-update.com>', fromFlag: true,
+            body: [
+                { t: 'Dear Employee,' },
+                { t: 'Your password expires in 2 hours. To maintain access to your corporate network, please update it immediately.', flag: true }
+            ],
+            link: { text: 'Click Here to Reset Password', url: 'http://malicious-login-bypass.net/login', flag: true },
+            preview: {
+                secure: false, heading: 'TechCorp Secure Login', fields: ['Username', 'Current password'], button: 'Sign in',
+                footer: 'Your session has expired. Enter your current password to keep your account active.'
+            },
+            closing: 'Thank you,<br>IT Desk',
+            correct: ['report'],
+            hint: "Compare the sender's domain with your company's real domain, and check where the link actually goes.",
+            flags: [ 'The sender domain "tech-corp-update.com" is not techcorp.com', 'Artificial urgency ("2 hours") pushes you to act without thinking', 'The link destination has nothing to do with your company' ],
+            success: "Excellent! You reported the email instead of interacting with it. Reporting also warns IT so they can protect your colleagues.",
+            fail: 'Security breach! You clicked a malicious link. Always check the sender\'s actual domain and preview where a link really goes before clicking.'
+        },
+        {
+            id: 'legit-email', kind: 'email', category: 'Legitimate email', legit: true, penalty: 10, time: 30,
+            title: 'Incoming Email',
+            prompt: 'You work at TechCorp (techcorp.com). Review the email, then decide what to do.',
+            from: 'IT Service Desk <servicedesk@techcorp.com>',
+            body: [
+                { t: 'Hi team,' },
+                { t: 'Scheduled maintenance will take place on Saturday between 02:00 and 04:00. The VPN may be briefly unavailable. No action is required.' }
+            ],
+            link: { text: 'View maintenance calendar', url: 'https://intranet.techcorp.com/maintenance' },
+            preview: {
+                secure: true, heading: 'Maintenance calendar',
+                rows: [
+                    { label: 'Sat, 02:00–04:00', text: 'Scheduled maintenance window. The VPN may be briefly unavailable.' },
+                    { label: 'Sat, 03:00',       text: 'Intranet search re-index. No impact expected.' },
+                    { label: 'Sun',              text: 'No maintenance scheduled.' }
+                ],
+                footer: 'TechCorp Intranet · Internal use only. No sign-in is needed to view this page.'
+            },
+            closing: 'Regards,<br>IT Service Desk',
+            correct: ['dismiss', 'link'],
+            hint: 'Does this message ask you for anything? Check the domain and link destination before deciding.',
+            flags: [ 'The sender domain matches techcorp.com', 'No urgency, and no request for credentials or money', 'The link goes to the company intranet over HTTPS' ],
+            success: 'Good judgment! This email passes every check, so you did not need to report it. Telling safe from unsafe matters as much as spotting threats.',
+            fail: 'False alarm. This message came from the real company domain, asked for nothing and linked to the intranet. Over-reporting buries IT in noise, which makes real reports easier to miss.'
+        },
+        {
+            id: 'usb', kind: 'usb', category: 'Baiting', penalty: 20, time: 30,
+            title: 'Found USB Drive',
+            prompt: 'You found a USB drive in the lobby labeled "Confidential Salaries". Drag it to a destination, or tap/press it first and then choose a destination.',
+            correct: ['bin'],
+            hint: 'Where did this device come from, and who benefits if you get curious?',
+            flags: [ 'An unknown device found in a public area', 'The tempting label ("Confidential Salaries") is designed to trigger curiosity' ],
+            success: 'Correct! You disposed of unknown media safely. Plugging it in could have executed a payload directly into the network.',
+            fail: 'System compromised! The USB contained ransomware that auto-executed the moment it was inserted into your laptop.'
+        },
+        {
+            id: 'vish', kind: 'call', category: 'Vishing', penalty: 20, time: 30,
+            title: 'Urgent Phone Call',
+            prompt: 'Your phone is ringing. Decide how to respond.',
+            callerName: "CEO's Office", callerNumber: 'Unknown number', unknown: true,
+            speech: '"Listen, I\'m traveling and locked out of the system. I need you to read me the 6-digit OTP sent to your phone right now!"',
+            acceptLabel: 'Read out the OTP', declineLabel: 'Hang up',
+            correct: ['decline'],
+            hint: 'Who legitimately needs a one-time code from you?',
+            flags: [ 'The number is unknown, not an internal extension', 'Urgency and authority are used as pressure', 'No legitimate person ever needs your one-time password' ],
+            success: 'Good call. You recognized a social engineering tactic. Legitimate executives or IT will never ask for your OTP over the phone.',
+            fail: 'Account hijacked! You gave away the final layer of your multi-factor authentication. The attacker now has full access.'
+        },
+        {
+            id: 'legit-call', kind: 'call', category: 'Legitimate call', legit: true, penalty: 10, time: 30,
+            title: 'Phone Call',
+            prompt: 'Earlier today you opened a helpdesk ticket (#5821) about your VPN. Your phone is ringing.',
+            callerName: 'IT Helpdesk', callerNumber: 'Internal ext. 4410', unknown: false,
+            speech: '"Hi, I\'m returning your call about ticket #5821, your VPN issue. Is it working for you now?"',
+            acceptLabel: 'Answer and talk', declineLabel: 'Hang up',
+            correct: ['accept'],
+            hint: 'Does this call match something you actually started, and does it ask for anything sensitive?',
+            flags: [ 'It is an internal extension and matches a ticket you opened', 'The caller knows the ticket number and asks only about the problem', 'Nothing sensitive (passwords, codes) is requested' ],
+            success: 'Right. This call matched something you started and asked for nothing sensitive, so answering was fine.',
+            fail: 'You hung up on a legitimate callback. Security is about verifying, not refusing everything. This call matched your own ticket and asked for nothing sensitive.'
+        },
+        {
+            id: 'pretext', kind: 'chat', category: 'Pretexting', penalty: 20, time: 30,
+            title: 'Chat Request',
+            prompt: 'A message arrives in the internal chat.',
+            chatName: 'Dave (Vendor)',
+            bubbles: [
+                { t: "Hi! I'm the new auditor from KPMG.", flag: true },
+                { t: 'Can you quickly send me the client database export? I need it for the 3 PM meeting with your boss.', flag: true }
+            ],
+            sendLabel: '📎 Send File', verifyLabel: '🔍 Call Boss to Verify',
+            correct: ['verify'],
+            hint: 'Can you confirm this person is who they say they are, using a channel they do not control?',
+            flags: [ 'An unverified claim of authority ("auditor")', 'Time pressure ("3 PM meeting")', 'The request skips the normal data-access process' ],
+            success: 'Great procedure! Pretexting relies on a false sense of authority or urgency. Verifying through a second channel stopped the leak.',
+            fail: 'Data breach! You sent confidential data to an unauthorized third party based on an unverified claim.'
+        },
+        {
+            id: 'tail', kind: 'door', category: 'Tailgating', penalty: 20, time: 30,
+            title: 'Secure Entry',
+            prompt: 'You just badged into the server room. Someone carrying heavy boxes is rushing up behind you!',
+            correct: ['lock'],
+            hint: 'One badge, one entry. Politeness is not a security control.',
+            flags: [ 'The person has not badged in themselves', 'Full hands and a rushed manner create social pressure to hold the door' ],
+            success: 'Access denied! You enforced the "one badge, one entry" rule. It might feel rude, but physical security comes first.',
+            fail: 'Physical breach! You let an unauthorized person walk straight into the server room out of politeness.',
+            timeoutFail: 'Physical breach! While you hesitated, the person slipped through the open door. Indecision lets intruders in too.'
+        },
+        {
+            id: 'invoice', kind: 'email', category: 'Invoice fraud', penalty: 20, time: 30,
+            title: 'Incoming Email',
+            prompt: 'You work in Accounts Payable at TechCorp (techcorp.com). Review the email, then decide what to do.',
+            from: 'Mark Chen (CFO) <mark.chen.cfo@gmail.com>', fromFlag: true,
+            body: [
+                { t: 'Hi,' },
+                { t: 'I am in a closed-door meeting and cannot take calls. Please process the supplier invoice today and keep this between us until it is paid.', flag: true },
+                { t: 'The supplier\'s bank details have changed, so use the updated ones in the payment portal.', flag: true }
+            ],
+            link: { text: 'Open invoice and payment details', url: 'https://secure-docs-view.cc/invoice/4471', flag: true },
+            preview: {
+                secure: true, flag: true, heading: 'Document Viewer', fields: ['Work email', 'Password'], button: 'Sign in to view',
+                footer: 'Sign in with your company account to view this invoice.'
+            },
+            closing: 'Mark<br>Sent from my phone',
+            correct: ['report'],
+            hint: 'Look at the sender address, then ask: does this request follow your normal payment-approval process?',
+            flags: [ 'The sender uses a free personal address, not techcorp.com', 'Secrecy and "cannot take calls" stop you from verifying the request', 'Bank details changed by email is a classic invoice-fraud tactic', 'The link opens a sign-in page on an unrelated domain (a padlock only means the connection is encrypted, not that the site is trustworthy)' ],
+            success: 'Well spotted! Impersonating an executive to push a rushed payment is called business email compromise. Report it, and confirm any payment change through a phone number you already know.',
+            fail: 'Fraud succeeded! You treated an unverified executive request as real. The attacker captured your login and the payment went to a fraudulent account.'
+        },
+        {
+            id: 'legit-chat', kind: 'chat', category: 'Legitimate chat', legit: true, penalty: 10, time: 30,
+            title: 'Chat Request',
+            prompt: 'You are preparing the Q3 report with your team. A message arrives in the internal chat.',
+            chatName: 'Priya (Finance Team)',
+            bubbles: [
+                { t: "Hi! Following up on this morning's stand-up about the Q3 report." },
+                { t: "Could you upload your draft to the team's shared folder when you're done? I'll review it this afternoon." }
+            ],
+            sendLabel: '📎 Upload to Shared Folder', verifyLabel: '🔍 Call to Verify First',
+            correct: ['send'],
+            hint: 'Does this request match something already agreed, and does it use your normal process?',
+            flags: [ 'A known teammate, in a conversation tied to a meeting you attended', 'The file goes to the approved shared folder, not to an outside address', 'No pressure and no unusual deadline' ],
+            success: 'Good judgment! This request matched a real conversation and used the normal process, so no extra verification was needed.',
+            fail: 'Unnecessary friction. This was a known colleague asking for something agreed in a meeting, through the normal shared folder. Verify when something is unusual, not every time.'
+        },
+        {
+            id: 'smish', kind: 'chat', category: 'Smishing', penalty: 20, time: 30,
+            title: 'Text Message',
+            prompt: 'A text message arrives on your phone while you are at work.',
+            chatLabel: 'New text message', chatName: 'Unknown sender',
+            bubbles: [
+                { t: 'PostEx: Your parcel #ID8841 is on hold because of an unpaid customs fee of $1.99.', flag: true },
+                { t: 'Pay within 12 hours or it will be returned: http://postex-redelivery.top/pay', flag: true }
+            ],
+            sendLabel: '🔗 Open Link and Pay', verifyLabel: '🔍 Check in the Courier App',
+            correct: ['verify'],
+            hint: 'Did you order anything? Do you know the sender, and does the link point to the courier\'s real website?',
+            flags: [ 'An unexpected message from an unknown sender', 'A tiny fee with a short deadline creates urgency', 'The link is a ".top" address unrelated to any real courier' ],
+            success: 'Well done! Smishing relies on small payments and tight deadlines. Checking the official app or website yourself bypasses the attacker\'s link.',
+            fail: 'Card details stolen! The link led to a fake payment page that captured your card number and personal information.'
+        }
+    ];
+
+    /* RENDERER */
+    const RENDER = {
+        email(scenario) {
+            const actions = shuffle([
+                { id: 'report',  cls: 'btn-report', label: '🚩 Report to IT' },
+                { id: 'dismiss', cls: 'btn-ok',     label: '✔ Looks fine, mark as read' }
+            ]);
+            const buildPreviewHtml = (preview) => {
+                if (!preview) return '';
+                const rows = (preview.rows || []).map(row => `<div class="preview-row"><span class="preview-when">${escapeHtml(row.label)}</span><span>${escapeHtml(row.text)}</span></div>`).join('');
+                const fields = (preview.fields || []).map(label => `<div class="preview-field">${escapeHtml(label)}</div>`).join('');
+                const button = preview.button ? `<div class="preview-fake-btn">${escapeHtml(preview.button)}</div>` : '';
+                return `<div class="link-preview" id="linkPreview" hidden><div class="preview-window" role="group" aria-label="Preview of the page behind the link"><div class="preview-url ${preview.secure ? 'secure' : 'insecure'}"${flagAttr(!preview.secure || preview.flag)}><span aria-hidden="true">${preview.secure ? '🔒' : '⚠️'}</span><span>${escapeHtml(scenario.link.url)}</span><span class="preview-badge">${preview.secure ? 'Secure (HTTPS)' : 'Not secure (HTTP)'}</span></div><div class="preview-page"><h4>${escapeHtml(preview.heading)}</h4>${rows}${fields}${button}<div class="preview-footer">${escapeHtml(preview.footer)}</div></div></div></div>`;
+            };
+            const html = `<div class="email-client"><div class="email-header"${flagAttr(scenario.fromFlag)}><strong>From:</strong> ${escapeHtml(scenario.from)}</div><div class="email-body">${scenario.body.map(line => `<p${flagAttr(line.flag)}>${escapeHtml(line.t)}</p>`).join('')}<div class="link-row"><button type="button" class="email-link" data-choose="link" id="emailLink"${flagAttr(scenario.link.flag)}>${escapeHtml(scenario.link.text)}</button><button type="button" class="btn-preview" id="previewLink">Preview link</button></div><p>${scenario.closing}</p></div><div class="link-status" id="linkStatus" role="status" aria-live="polite"></div>${buildPreviewHtml(scenario.preview)}<div class="email-actions">${actions.map(a => `<button type="button" class="${a.cls}" data-choose="${a.id}">${a.label}</button>`).join('')}</div></div>`;
+            const bind = (root) => {
+                const status = $('#linkStatus', root), link = $('#emailLink', root), idleText = 'Hover over, focus on, or press "Preview link" to see where the link really goes.';
+                let pinned = false;
+                const showDestination = () => { status.textContent = 'Actual destination: ' + scenario.link.url; };
+                const resetStatus = () => { if (!pinned) status.textContent = idleText; };
+                status.textContent = idleText;
+                link.addEventListener('mouseenter', showDestination); link.addEventListener('focus', showDestination); link.addEventListener('mouseleave', resetStatus); link.addEventListener('blur', resetStatus);
+                const previewBtn = $('#previewLink', root), previewPanel = $('#linkPreview', root);
+                if (previewPanel) previewBtn.setAttribute('aria-expanded', 'false');
+                previewBtn.addEventListener('click', () => {
+                    const willOpen = previewPanel ? previewPanel.hidden : true;
+                    if (previewPanel) { previewPanel.hidden = !willOpen; previewBtn.setAttribute('aria-expanded', String(willOpen)); previewBtn.textContent = willOpen ? 'Hide preview' : 'Preview link'; }
+                    pinned = willOpen; if (willOpen) showDestination(); else resetStatus();
+                });
+            };
+            return { html, bind };
+        },
+        usb(scenario) {
+            const zones = shuffle([ { id: 'laptop', icon: '💻',  label: 'Your Laptop' }, { id: 'bin',    icon: '🗑️', label: 'IT Security Bin' } ]);
+            const zoneHtml = (zone) => `<button type="button" class="dropzone" data-dest="${zone.id}" aria-label="${escapeHtml(zone.label)}"><div aria-hidden="true">${zone.icon}</div><span>${escapeHtml(zone.label)}</span></button>`;
+            const html = `<div class="desk-area">${zoneHtml(zones[0])}<button type="button" class="usb-drive" id="usb" draggable="true" aria-pressed="false" aria-label="USB drive labeled Confidential Salaries" data-flag><span aria-hidden="true">💾</span> USB</button>${zoneHtml(zones[1])}</div><div class="desk-status" id="deskStatus" role="status" aria-live="polite"></div>`;
+            const bind = (root, choose) => {
+                const usb = $('#usb', root), status = $('#deskStatus', root);
+                let selected = false;
+                usb.addEventListener('click', () => { selected = !selected; usb.setAttribute('aria-pressed', String(selected)); usb.classList.toggle('selected', selected); status.textContent = selected ? 'USB selected. Now choose a destination.' : 'Selection cleared.'; });
+                usb.addEventListener('dragstart', (event) => { event.dataTransfer.setData('text/plain', 'usb'); event.dataTransfer.effectAllowed = 'move'; });
+                root.querySelectorAll('.dropzone').forEach((zone) => {
+                    zone.addEventListener('dragover', (event) => { event.preventDefault(); zone.classList.add('dragover'); });
+                    zone.addEventListener('dragleave', (event) => { if (!zone.contains(event.relatedTarget)) zone.classList.remove('dragover'); });
+                    zone.addEventListener('drop', (event) => { event.preventDefault(); zone.classList.remove('dragover'); choose(zone.dataset.dest); });
+                    zone.addEventListener('click', () => { if (selected) { choose(zone.dataset.dest); } else { status.textContent = 'First select the USB (tap it or press Enter), or drag it to a destination.'; } });
+                });
+            };
+            return { html, bind };
+        },
+        call(scenario) {
+            const buttons = shuffle([ { id: 'decline', cls: 'btn-decline', icon: '📵', label: scenario.declineLabel }, { id: 'accept',  cls: 'btn-accept',  icon: '📞', label: scenario.acceptLabel } ]);
+            const html = `<div class="phone-ui"><div class="caller-avatar" aria-hidden="true">👤</div><div class="caller-id">${escapeHtml(scenario.callerName)}</div><div class="caller-number ${scenario.unknown ? 'unknown' : ''}" data-flag>${escapeHtml(scenario.callerNumber)}</div><p class="speech">${escapeHtml(scenario.speech)}</p><div class="phone-actions">${buttons.map(b => `<div class="call-col"><button type="button" class="btn-call ${b.cls}" data-choose="${b.id}" aria-label="${escapeHtml(b.label)}"><span aria-hidden="true">${b.icon}</span></button><span>${escapeHtml(b.label)}</span></div>`).join('')}</div></div>`;
+            return { html, bind() {} };
+        },
+        chat(scenario) {
+            const buttons = shuffle([ { id: 'send',   cls: 'btn-send-file', label: scenario.sendLabel }, { id: 'verify', cls: 'btn-verify',    label: scenario.verifyLabel } ]);
+            const html = `<div class="chat-ui"><div class="chat-header">${escapeHtml(scenario.chatLabel || 'Internal Comms')}: ${escapeHtml(scenario.chatName)}</div><div class="chat-bubbles">${scenario.bubbles.map(b => `<div class="bubble"${flagAttr(b.flag)}>${escapeHtml(b.t)}</div>`).join('')}</div><div class="chat-actions">${buttons.map(b => `<button type="button" class="chat-btn ${b.cls}" data-choose="${b.id}">${b.label}</button>`).join('')}</div></div>`;
+            return { html, bind() {} };
+        },
+        door(scenario) {
+            const buttons = shuffle([ { id: 'lock', cls: 'btn-lock', label: '🔒 Shut Door & Demand Badge' }, { id: 'hold', cls: 'btn-hold', label: '🤝 Hold the Door' } ]);
+            const html = `<div class="door-scene"><div class="door-visual" aria-hidden="true" data-flag>🚪 🏃‍♂️💨</div><div class="door-actions">${buttons.map(b => `<button type="button" class="btn-door ${b.cls}" data-choose="${b.id}">${b.label}</button>`).join('')}</div></div>`;
+            return { html, bind() {} };
+        }
+    };
+
+    /* STATE GAME */
+    const state = {
+        levelOrder: [], index: 0, score: CONFIG.startScore, results: [], answered: false, attempt: 0, hintUsed: false, showFlags: false, stopTimer: () => {},
+        levelStartedAt: 0, hintsTotal: 0, usedRelaxed: false, submitted: null,
+        relaxed: store.get(STORAGE_KEYS.relaxed, false), best: store.get(STORAGE_KEYS.best, null)
+    };
+
+    const gameArea = $('#gameArea');
+    const feedbackModal = $('#feedbackModal');
+    const headerEl = $('#header');
+    const currentScenario = () => state.levelOrder[state.index];
+
+    function updateStats() {
+        $('#scoreDisplay').textContent = state.score;
+        $('#levelDisplay').textContent = Math.min(state.index + 1, state.levelOrder.length);
+        $('#totalDisplay').textContent = state.levelOrder.length;
+        $('#bestDisplay').textContent = state.best === null ? '–' : state.best + '%';
+    }
+
+    function setModalOpen(isOpen) {
+        feedbackModal.hidden = !isOpen;
+        gameArea.inert = isOpen;
+        headerEl.inert = isOpen;
+    }
+
+    function buildLevelHtml(scenario, sceneHtml) {
+        const retryNote = state.showFlags ? ' <span class="retry-note">Warning signs are now highlighted.</span>' : '';
+        return `<h2 class="sc-title" id="scTitle" tabindex="-1">Scenario: ${escapeHtml(scenario.title)}</h2><p class="sc-prompt">${escapeHtml(scenario.prompt)}${retryNote}</p><div class="timer-wrap" role="timer" aria-live="off"><div class="timer-track" aria-hidden="true"><div class="timer-bar" id="timerBar"></div></div><div class="timer-label" id="timerLabel"></div></div><div class="hint-row"><button type="button" class="btn-ghost" id="hintBtn">💡 Hint (−${CONFIG.hintCost}%)</button><p class="hint-text" id="hintText" role="status" aria-live="polite"></p></div><div class="scene ${state.showFlags ? 'show-flags' : ''}" id="scene">${sceneHtml}</div>`;
+    }
+
+    function startTimer(scenario) {
+        const multiplier = state.relaxed ? CONFIG.relaxedMultiplier : 1;
+        const totalMs = scenario.time * multiplier * 1000;
+        const bar = $('#timerBar');
+        const label = $('#timerLabel');
+        const startedAt = performance.now();
+
+        const tick = () => {
+            const remainingMs = Math.max(0, totalMs - (performance.now() - startedAt));
+            const isLow = remainingMs <= totalMs * CONFIG.lowTimeRatio;
+            bar.style.width = (remainingMs / totalMs * 100) + '%';
+            bar.classList.toggle('low', isLow);
+            label.classList.toggle('low', isLow);
+            label.textContent = 'Time left: ' + Math.ceil(remainingMs / 1000) + 's';
+            if (remainingMs <= 0) choose('timeout');
+        };
+        tick();
+        const intervalId = setInterval(tick, CONFIG.timerTickMs);
+        state.stopTimer = () => clearInterval(intervalId);
+    }
+
+    function setupHint(scenario) {
+        const hintBtn = $('#hintBtn');
+        const showHint = () => { $('#hintText').textContent = scenario.hint; hintBtn.disabled = true; };
+        if (state.hintUsed) showHint();
+        hintBtn.addEventListener('click', () => {
+            if (state.hintUsed) return;
+            state.hintUsed = true; state.hintsTotal++; state.score = Math.max(0, state.score - CONFIG.hintCost);
+            updateStats(); showHint();
+        });
+    }
+
+    function startGame() {
+        state.levelOrder = shuffle(SCENARIOS);
+        state.index = 0; state.score = CONFIG.startScore; state.results = []; state.attempt = 0; state.hintUsed = false; state.showFlags = false; state.hintsTotal = 0; state.usedRelaxed = false; state.submitted = null;
+        setModalOpen(false); loadLevel();
+    }
+
+    function loadLevel() {
+        state.stopTimer(); state.stopTimer = () => {}; state.answered = false;
+        const scenario = currentScenario();
+        const rendered = RENDER[scenario.kind](scenario);
+        gameArea.innerHTML = buildLevelHtml(scenario, rendered.html);
+        const scene = $('#scene');
+        scene.querySelectorAll('[data-choose]').forEach((el) => { el.addEventListener('click', () => choose(el.dataset.choose)); });
+        rendered.bind(scene, choose);
+        if (state.attempt === 0) state.levelStartedAt = performance.now();
+        if (state.relaxed) state.usedRelaxed = true;
+        startTimer(scenario); setupHint(scenario); updateStats();
+        $('#scTitle').focus({ preventScroll: true });
+    }
+
+    function choose(answerId) {
+        if (state.answered) return;
+        state.answered = true; state.stopTimer();
+        const scenario = currentScenario();
+        const isCorrect = scenario.correct.includes(answerId);
+        if (state.attempt === 0) {
+            state.results[state.index] = { category: scenario.category, legit: !!scenario.legit, timeMs: Math.round(performance.now() - state.levelStartedAt), outcome: isCorrect ? (state.hintUsed ? 'hint' : 'clean') : 'missed' };
+            if (!isCorrect) state.score = Math.max(0, state.score - scenario.penalty);
+        } else if (isCorrect) {
+            state.results[state.index].outcome = 'recovered';
+        }
+        updateStats(); showFeedback(isCorrect, answerId);
+    }
+
+    function getFeedbackTitle(isCorrect, answerId, scenario) {
+        if (answerId === 'timeout') return "⏱️ TIME'S UP";
+        if (isCorrect) return scenario.legit ? '✅ GOOD JUDGMENT' : '✅ THREAT MITIGATED';
+        return scenario.legit ? '⚠️ FALSE ALARM' : '❌ SECURITY BREACH';
+    }
+
+    function getFeedbackText(isCorrect, answerId, scenario) {
+        if (isCorrect) return scenario.success;
+        if (answerId === 'timeout') return scenario.timeoutFail || DEFAULT_TIMEOUT_MESSAGE;
+        return scenario.fail;
+    }
+
+    function showFeedback(isCorrect, answerId) {
+        const scenario = currentScenario();
+        const title = $('#fbTitle');
+        title.textContent = getFeedbackTitle(isCorrect, answerId, scenario);
+        title.style.color = isCorrect ? 'var(--success)' : 'var(--error)';
+        $('#fbText').textContent = getFeedbackText(isCorrect, answerId, scenario);
+        $('#fbFlagList').innerHTML = scenario.flags.map(f => `<li>${escapeHtml(f)}</li>`).join('');
+        $('#fbFlagTitle').textContent = scenario.legit ? 'Why it was safe' : 'What gave it away';
+        $('#fbFlags').hidden = false;
+        
+        const isLastScenario = state.index >= state.levelOrder.length - 1;
+        const actions = $('#fbActions'); actions.innerHTML = '';
+        const addButton = (label, className, onClick) => {
+            const button = document.createElement('button');
+            button.type = 'button'; button.className = className; button.textContent = label;
+            button.addEventListener('click', onClick); actions.appendChild(button); return button;
+        };
+
+        let retryButton = null;
+        if (!isCorrect) retryButton = addButton('Try again', 'btn-next', retry);
+        const nextButton = addButton(isLastScenario ? 'See results' : 'Next scenario', isCorrect ? 'btn-next' : 'btn-next btn-secondary', next);
+        
+        setModalOpen(true);
+        (retryButton || nextButton).focus();
+    }
+
+    function retry() { state.attempt++; state.showFlags = true; setModalOpen(false); loadLevel(); }
+    function next() { state.index++; state.attempt = 0; state.hintUsed = false; state.showFlags = false; setModalOpen(false); if (state.index >= state.levelOrder.length) { showFinal(); } else { loadLevel(); } }
+
+    function showFinal() {
+        state.stopTimer();
+        if (state.best === null || state.score > state.best) { state.best = state.score; store.set(STORAGE_KEYS.best, state.best); }
+        updateStats();
+
+        const isFlawless = state.score === 100;
+        const isAdequate = state.score >= CONFIG.passScore;
+        const statusText = isFlawless ? 'Flawless defense! You are ready for deployment.' : isAdequate ? 'Adequate, but your lapses could cost the company.' : 'Critical failure. Mandatory retraining required.';
+        const scoreColor = isFlawless ? 'var(--success)' : isAdequate ? 'var(--warn)' : 'var(--error)';
+        const OUTCOME_LABELS = { clean: ['✅', 'Spotted it'], hint: ['💡', 'Spotted it, with a hint'], recovered: ['🔁', 'Got it on retry'], missed: ['❌', 'Missed'] };
+        const categoriesToReview = state.results.filter(r => r.outcome === 'missed' || r.outcome === 'recovered').map(r => r.category);
+        const reviewText = categoriesToReview.length ? 'Worth reviewing: ' + escapeHtml(categoriesToReview.join(', ')) + '.' : 'No categories to review.';
+        const resultRows = state.results.map((r) => { const [icon, text] = OUTCOME_LABELS[r.outcome]; return `<li><span>${escapeHtml(r.category)}</span><span class="outcome">${icon} ${text}</span></li>`; }).join('');
+
+        gameArea.innerHTML = `<div class="results"><h2 id="scTitle" tabindex="-1">Simulation Complete</h2><div class="big-score" style="color:${scoreColor}">${state.score}%</div><p class="sc-prompt">${statusText}</p><p class="sc-prompt">${reviewText}</p><ul class="result-list">${resultRows}</ul>${buildLeaderboardHtml()}<button type="button" class="btn-next" id="restartBtn">Restart Training</button></div>`;
+        $('#restartBtn').addEventListener('click', startGame);
+        setupLeaderboard(gameArea);
+        $('#scTitle').focus({ preventScroll: true });
+    }
+
+    const totalTimeMs = () => { const sum = state.results.reduce((total, r) => total + (r.timeMs || 0), 0); return Math.min(1200000, Math.max(3000, sum)); };
+
+    function buildLeaderboardHtml() {
+        if (!Leaderboard.enabled()) { return `<section class="lb" id="lb" aria-labelledby="lbTitle"><h3 id="lbTitle">Leaderboard</h3><p class="lb-status">The leaderboard is not set up yet.</p></section>`; }
+        const savedName = store.get(STORAGE_KEYS.nickname, '');
+        return `<section class="lb" id="lb" aria-labelledby="lbTitle"><h3 id="lbTitle">Leaderboard</h3><form class="lb-form" id="lbForm"><label for="lbName">Nickname (up to ${SUPABASE.maxNickname} characters)</label><input id="lbName" type="text" maxlength="${SUPABASE.maxNickname}" autocomplete="off" required value="${escapeHtml(savedName)}"><button type="submit" class="btn-next" id="lbSubmit">Submit score</button></form><div class="lb-tabs" role="group" aria-label="Leaderboard mode"><button type="button" class="btn-ghost" id="lbTabStandard" aria-pressed="true">Standard timer</button><button type="button" class="btn-ghost" id="lbTabRelaxed" aria-pressed="false">Relaxed timer</button></div><div class="lb-status" id="lbStatus" role="status" aria-live="polite"></div><div id="lbTable"></div></section>`;
+    }
+
+    function setupLeaderboard(root) {
+        if (!Leaderboard.enabled()) return;
+        const form = $('#lbForm', root), nameInput = $('#lbName', root), submitBtn = $('#lbSubmit', root), status = $('#lbStatus', root), tableBox = $('#lbTable', root), tabStandard = $('#lbTabStandard', root), tabRelaxed = $('#lbTabRelaxed', root);
+        let viewRelaxed = state.usedRelaxed, requestId = 0;
+        const setStatus = (text, isError = false) => { status.textContent = text; status.classList.toggle('error', isError); };
+        const buildTable = (rows) => {
+            const body = rows.map((row, i) => {
+                const mine = state.submitted && state.submitted.relaxed === viewRelaxed && state.submitted.nickname === row.nickname && state.submitted.score === row.score && state.submitted.time_ms === row.time_ms;
+                return `<tr${mine ? ' class="me"' : ''}><td>${i + 1}</td><td>${escapeHtml(row.nickname)}</td><td class="num">${escapeHtml(row.score)}%</td><td class="num">${escapeHtml(formatTime(row.time_ms))}</td></tr>`;
+            }).join('');
+            return `<table class="lb-table"><thead><tr><th>#</th><th>Nickname</th><th class="num">Score</th><th class="num">Time</th></tr></thead><tbody>${body}</tbody></table>`;
+        };
+        async function refresh(doneMessage = '') {
+            const myRequest = ++requestId; tabStandard.setAttribute('aria-pressed', String(!viewRelaxed)); tabRelaxed.setAttribute('aria-pressed', String(viewRelaxed)); setStatus('Loading…');
+            try {
+                const rows = await Leaderboard.top(viewRelaxed);
+                if (myRequest !== requestId) return;
+                tableBox.innerHTML = rows.length ? buildTable(rows) : '';
+                setStatus(doneMessage || (rows.length ? '' : 'No scores yet. Be the first!'));
+            } catch (error) {
+                if (myRequest !== requestId) return;
+                tableBox.innerHTML = ''; setStatus(error.message, true);
+            }
+        }
+        tabStandard.addEventListener('click', () => { viewRelaxed = false; refresh(); }); tabRelaxed.addEventListener('click',  () => { viewRelaxed = true;  refresh(); });
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); if (state.submitted) return;
+            const nickname = nameInput.value.replace(/\s+/g, ' ').trim().slice(0, SUPABASE.maxNickname);
+            if (!nickname) { setStatus('Please enter a nickname.', true); nameInput.focus(); return; }
+            const entry = { nickname, score: state.score, time_ms: totalTimeMs(), relaxed: state.usedRelaxed, hints_used: Math.min(10, state.hintsTotal) };
+            submitBtn.disabled = true; nameInput.disabled = true; setStatus('Saving…');
+            try {
+                await Leaderboard.submit(entry); state.submitted = entry; store.set(STORAGE_KEYS.nickname, nickname); form.hidden = true; viewRelaxed = entry.relaxed; refresh('Score submitted. Your row is highlighted.');
+            } catch (error) {
+                submitBtn.disabled = false; nameInput.disabled = false; setStatus(error.message + ' Please try again.', true);
+            }
+        });
+        refresh();
+    }
+
+    /* =================================================================
+       3.8 INISIALISASI & INTEGRASI SPA
+       ================================================================= */
+    const relaxedToggle = $('#relaxedToggle');
+    relaxedToggle.checked = state.relaxed;
+    relaxedToggle.addEventListener('change', () => {
+        state.relaxed = relaxedToggle.checked; store.set(STORAGE_KEYS.relaxed, state.relaxed);
+    });
+
+    const landingPage = document.getElementById('landingPage');
+    const gameWrapper = document.getElementById('gameWrapper');
+    const btnStartGame = document.getElementById('btnStartGame');
+
+    if(btnStartGame) {
+        btnStartGame.addEventListener('click', () => {
+            // Sembunyikan landing page, tampilkan game
+            landingPage.style.display = 'none';
+            gameWrapper.style.display = 'flex';
+            
+            // Mulai eksekusi game hanya ketika tombol ditekan
+            startGame();
+        });
+    }
+
+})();
+</script>
+
+</body>
+</html>
